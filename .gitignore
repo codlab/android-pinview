@@ -1,0 +1,7 @@
+build
+*.iml
+
+*.DS_Store
+*.DS_STORE
+
+*.apk
