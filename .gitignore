@@ -5,3 +5,5 @@ build
 *.DS_STORE
 
 *.apk
+
+local.properties
