@@ -14,6 +14,10 @@ to notify the manager it is ok - before returning, the listener MIUST manage it'
 
 getListenerContext() must return a valid Context for the time of the operations
 
+Finally, to register for events :
+
+        final PinCheckHelper checker = new PinCheckHelper(IPinEntryListener);
+        checker.register(Context);
 
 What comes ?
 
