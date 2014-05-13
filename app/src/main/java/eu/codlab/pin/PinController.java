@@ -1,12 +1,13 @@
 package eu.codlab.pin;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +51,7 @@ class PinController extends BroadcastReceiver {
     private Button buttonDelete;
 
     private Fragment _fragment;
+    private android.support.v4.app.Fragment _fragment_support;
     private Activity _activity;
 
 
@@ -68,9 +70,19 @@ class PinController extends BroadcastReceiver {
         keyPadLockedFlag = false;
     }
 
+    private Activity getActivity(){
+        Activity activity = null;
+        if(_activity != null)
+            activity = _activity;
+        else if(Build.VERSION.SDK_INT>=11 && _fragment != null && _fragment.getActivity() != null)
+            activity = _fragment.getActivity();
+        else if(_fragment_support != null && _fragment_support.getActivity() != null)
+            activity = _fragment_support.getActivity();
+        return activity;
+    }
     private void check() {
-        Activity activity = _activity != null ? _activity :
-                ((_fragment != null) ? _fragment.getActivity() : null);
+        Activity activity = getActivity();
+
         if (activity != null) {
 
             //just to clear
@@ -100,8 +112,8 @@ class PinController extends BroadcastReceiver {
     }
 
     private void onExit() {
-        Activity activity = _activity != null ? _activity :
-                ((_fragment != null) ? _fragment.getActivity() : null);
+        Activity activity = getActivity();
+
         if (activity != null) {
             Intent intent = new Intent(Constants.EVENT_EXIT);
             intent.putExtra(Constants.EVENT_EXIT, userEntered);
@@ -170,6 +182,33 @@ class PinController extends BroadcastReceiver {
         }
     }
 
+    void init(android.support.v4.app.Fragment fragment, View activity) {
+        _fragment_support = fragment;
+        buttonExit = (Button) activity.findViewById(R.id.buttonExit);
+        buttonDelete = (Button) activity.findViewById(R.id.buttonDeleteBack);
+        titleView = (TextView) activity.findViewById(R.id.titleBox);
+
+        pinBox0 = (TextView) activity.findViewById(R.id.pinBox0);
+        pinBox1 = (TextView) activity.findViewById(R.id.pinBox1);
+        pinBox2 = (TextView) activity.findViewById(R.id.pinBox2);
+        pinBox3 = (TextView) activity.findViewById(R.id.pinBox3);
+        pinBox4 = (TextView) activity.findViewById(R.id.pinBox4);
+
+        button0 = (Button) activity.findViewById(R.id.button0);
+        button1 = (Button) activity.findViewById(R.id.button1);
+        button2 = (Button) activity.findViewById(R.id.button2);
+        button3 = (Button) activity.findViewById(R.id.button3);
+        button4 = (Button) activity.findViewById(R.id.button4);
+        button5 = (Button) activity.findViewById(R.id.button5);
+        button6 = (Button) activity.findViewById(R.id.button6);
+        button7 = (Button) activity.findViewById(R.id.button7);
+        button8 = (Button) activity.findViewById(R.id.button8);
+        button9 = (Button) activity.findViewById(R.id.button9);
+        buttonDelete = (Button) activity.findViewById(R.id.buttonDeleteBack);
+        statusView = (TextView) activity.findViewById(R.id.statusMessage);
+
+        endInit();
+    }
     void init(Fragment fragment, View activity) {
         _fragment = fragment;
         buttonExit = (Button) activity.findViewById(R.id.buttonExit);
@@ -229,8 +268,7 @@ class PinController extends BroadcastReceiver {
 
     private void endInit() {
 
-        Activity activity = _activity != null ? _activity :
-                ((_fragment != null) ? _fragment.getActivity() : null);
+        Activity activity = getActivity();
         if(activity != null) {
             _ok = activity.getString(R.string.ok);
             _error = activity.getString(R.string.error);
