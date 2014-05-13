@@ -3,4 +3,6 @@
     <string name="app_name">PinView</string>
     <string name="ok">Correct pin</string>
     <string name="error">Wrong pin</string>
+    <string name="title_previous">Enter previous pin</string>
+    <string name="title_new">Enter new pin</string>
 </resources>

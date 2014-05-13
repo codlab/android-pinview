@@ -8,10 +8,18 @@ import android.os.AsyncTask;
 class LockKeyPadOperation extends AsyncTask<String, Void, String> {
 
     private final PinController _controller;
+    private final PinUpdateController _controller2;
 
     LockKeyPadOperation(PinController controller){
         _controller = controller;
+        _controller2 = null;
     }
+
+    public LockKeyPadOperation(PinUpdateController pinUpdateController) {
+        _controller2 = pinUpdateController;
+        _controller = null;
+    }
+
     @Override
     protected String doInBackground(String... params) {
         for (int i = 0; i < 2; i++) {
@@ -28,7 +36,8 @@ class LockKeyPadOperation extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        _controller.onPostExecute();
+        if(_controller != null) _controller.onPostExecute();
+        if(_controller2 != null) _controller2.onPostExecute();
     }
 
     @Override
