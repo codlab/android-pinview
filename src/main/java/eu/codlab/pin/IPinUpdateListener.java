@@ -18,4 +18,5 @@ public interface IPinUpdateListener {
     public boolean onPinChanged(int pin);
     public void onExit();
     public Context getListenerContext();
+    public boolean hasPreviousPin();
 }

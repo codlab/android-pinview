@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class PinProtectedUpdateActivity extends Activity implements IPinUpdateLi
 
     @Override
     public boolean onPinEntered(int pin) {
+        Log.d("PinView", _pin + " "+pin);
         return pin == _pin;
     }
 
@@ -68,5 +70,10 @@ public class PinProtectedUpdateActivity extends Activity implements IPinUpdateLi
     @Override
     public Context getListenerContext() {
         return this;
+    }
+
+    @Override
+    public boolean hasPreviousPin() {
+        return _pin != 98632;
     }
 }

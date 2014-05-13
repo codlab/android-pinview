@@ -29,18 +29,21 @@ public class PinUpdateHelper extends BroadcastReceiver{
     }
 
     public void startInput(Activity activity){
-        Intent intent = new Intent(activity, PinEntryActivity.class);
+        Intent intent = new Intent(activity, PinUpdateActivity.class);
+        if(_listener.hasPreviousPin() == false)
+            intent.putExtra("v", false);
         activity.startActivity(intent);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d("PinView",intent.getAction()+"");
         if(Constants.EVENT_UPDATE_PING.equals(intent.getAction()) && intent.hasExtra(Constants.EVENT_UPDATE_CONTENT)){
             Intent send = new Intent(Constants.EVENT_UPDATE_PONG);
             send.setAction(Constants.EVENT_UPDATE_PONG);
-            send.putExtra(Constants.EVENT_UPDATE_CONTENT, _listener.onPinEntered(intent.getIntExtra(Constants.EVENT_CONTENT,0)) ?
+            send.putExtra(Constants.EVENT_UPDATE_CONTENT, _listener.onPinEntered(intent.getIntExtra(Constants.EVENT_UPDATE_CONTENT,0)) ?
                     Constants.EVENT_PONG_OK: Constants.EVENT_PONG_ERROR);
-            Log.d("PinView",send.getAction());
+            Log.d("PinView",send.getAction()+" "+intent.getIntExtra(Constants.EVENT_UPDATE_CONTENT,0)+" "+send.getIntExtra(Constants.EVENT_UPDATE_CONTENT, -2));
             LocalBroadcastManager.getInstance(_listener.getListenerContext()).sendBroadcast(send);
         }else if(Constants.EVENT_UPDATE_PING.equals(intent.getAction()) && intent.hasExtra(Constants.EVENT_UPDATE_RESULT)){
             _listener.onPinChanged(intent.getIntExtra(Constants.EVENT_UPDATE_RESULT,0));

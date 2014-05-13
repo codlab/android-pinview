@@ -196,7 +196,8 @@ class PinUpdateController extends BroadcastReceiver {
     }
 
 
-    private void setToNew(){
+    void setToNew(){
+        reset();
         _current = NEW;
         if(_activity != null)((TextView)_activity.findViewById(R.id.titleBox)).setText(R.string.title_new);
         else if(_fragment_support != null)((TextView)_fragment_support.getView().findViewById(R.id.titleBox)).setText(R.string.title_new);
@@ -359,8 +360,8 @@ class PinUpdateController extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Constants.EVENT_PONG.equals(intent.getAction()) && intent.hasExtra(Constants.EVENT_CONTENT)) {
-            if (intent.getIntExtra(Constants.EVENT_CONTENT, Constants.EVENT_PONG_ERROR) == Constants.EVENT_PONG_OK) {
+        if (Constants.EVENT_UPDATE_PONG.equals(intent.getAction()) && intent.hasExtra(Constants.EVENT_UPDATE_CONTENT)) {
+            if (intent.getIntExtra(Constants.EVENT_UPDATE_CONTENT, Constants.EVENT_PONG_ERROR) == Constants.EVENT_PONG_OK) {
                 onOk();
             } else {
                 onError();

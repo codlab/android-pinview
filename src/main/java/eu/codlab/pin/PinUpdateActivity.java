@@ -33,6 +33,10 @@ public class PinUpdateActivity extends Activity {
 
         _controller.init(this);
 
+        if (getIntent() != null && getIntent().hasExtra("v") &&
+                getIntent().getBooleanExtra("v", true) == false)
+            _controller.setToNew();
+
     }
 
     @Override
@@ -44,7 +48,6 @@ public class PinUpdateActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return false;
     }
-
 
 
 }
